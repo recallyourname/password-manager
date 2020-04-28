@@ -3,6 +3,7 @@ package sample.validation;
 import javafx.scene.control.TextField;
 import sample.data.workWithIni;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ public class loginValidation {
         String username = input.getText();
         Matcher matcher = USERNAME_PATTERN.matcher(username);
         if (matcher.matches()) {
-            System.out.println("Everything is ok, log in...");
+            System.out.println("Username is ok");
             return true;
         }
         System.out.println("Incorrect username");
@@ -32,8 +33,8 @@ public class loginValidation {
         return false;
     }
 
-    public static boolean accountExists(TextField inputUsername, TextField inputPassword){
-        if (workWithIni.readAccountDataFromIni(inputUsername.getText(), inputPassword.getText()) == true){
+    public static boolean checkForLoginAndPassword(TextField inputUsername, TextField inputPassword){
+        if (workWithIni.readAccountDataFromIni(inputUsername.getText(), inputPassword.getText())){
             System.out.println("Account exist");
             return true;
         }
@@ -41,5 +42,12 @@ public class loginValidation {
             System.out.println("Account doesn't exist");
             return false;
         }
+    }
+
+    public static boolean checkIfAccountExist(TextField inputUsername) throws IOException {
+        if (workWithIni.findAccountByUsername(inputUsername.getText())) {
+            return true;
+        }
+        return false;
     }
 }

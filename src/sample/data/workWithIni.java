@@ -87,4 +87,13 @@ public class workWithIni {
         else return false;
     }
 
+    public static boolean findAccountByUsername(String username) throws IOException {
+        File file = new File("accounts.ini");
+        Wini ini = new Wini(file);
+
+        String usernameToCompare = ini.get(username, "username", String.class);
+        if (usernameToCompare.equals(username)) return true;
+        else return false;
+    }
+
 }

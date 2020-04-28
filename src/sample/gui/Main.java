@@ -43,7 +43,7 @@ public class Main extends Application {
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            if (loginValidation.accountExists(usernameInput, passwordInput)) {
+            if (loginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
                 if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
                     AlertBox.display("Congratulations!", "You logged in!");
                     workWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
@@ -58,7 +58,19 @@ public class Main extends Application {
         });
         GridPane.setConstraints(loginButton, 1,2 );
 
-        grid.getChildren().addAll(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton);
+        Button registrationButton = new Button("Sign Up");
+        registrationButton.setOnAction(e->{
+            Registration reg = new Registration();
+            try {
+                reg.start(window);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+        });
+        GridPane.setConstraints(registrationButton, 1,3);
+
+        grid.getChildren().addAll(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton, registrationButton);
         grid.setAlignment(Pos.CENTER);
 
         scene1 = new Scene(grid, 500,500);
