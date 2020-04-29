@@ -101,7 +101,7 @@ public class PasswordManagerUI extends Application {
 
         Button submitPassword = new Button("Submit");
         submitPassword.setOnAction(e->{
-            if (websiteInput.getText() != null && usernameInput.getText() != null && passwordInput.getText() != null){
+            if (!websiteInput.getText().trim().isEmpty() && !usernameInput.getText().trim().isEmpty() && !passwordInput.getText().trim().isEmpty()){
                 WorkWithIni.writePasswordToIni(websiteInput.getText(), usernameInput.getText(), passwordInput.getText());
                 if (ConfirmBox.display("Password Submitted", "Would you like to add another?")) {
                     createPassword();
