@@ -1,5 +1,6 @@
 package sample.validation;
 
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import sample.data.workWithIni;
 
@@ -22,7 +23,7 @@ public class loginValidation {
         return false;
     }
 
-    public static boolean validatePassword(TextField input){
+    public static boolean validatePassword(PasswordField input){
         String password = input.getText();
         Matcher matcher = PASSWORD_PATTERN.matcher(password);
         if(matcher.matches()){
@@ -33,7 +34,7 @@ public class loginValidation {
         return false;
     }
 
-    public static boolean checkForLoginAndPassword(TextField inputUsername, TextField inputPassword){
+    public static boolean checkForLoginAndPassword(TextField inputUsername, TextField inputPassword) throws IOException {
         if (workWithIni.readAccountDataFromIni(inputUsername.getText(), inputPassword.getText())){
             System.out.println("Account exist");
             return true;

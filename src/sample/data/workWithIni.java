@@ -83,16 +83,20 @@ public class workWithIni {
         String usernameToCompare = ini.get(username, "username", String.class);
         String passwordToCompare = ini.get(username, "password", String.class);
         System.out.println(usernameToCompare + " " + passwordToCompare + " " + username + " " + password);
-        if (usernameToCompare.compareTo(username) == 0 && passwordToCompare.compareTo(password) == 0) return true;
+        if (usernameToCompare == null || passwordToCompare == null) return false;
+        else if (usernameToCompare.compareTo(username) == 0 && passwordToCompare.compareTo(password) == 0) return true;
         else return false;
     }
+
+
 
     public static boolean findAccountByUsername(String username) throws IOException {
         File file = new File("accounts.ini");
         Wini ini = new Wini(file);
 
         String usernameToCompare = ini.get(username, "username", String.class);
-        if (usernameToCompare.equals(username)) return true;
+        if (usernameToCompare == null) return false;
+        else if (usernameToCompare.compareTo(username) == 0) return true;
         else return false;
     }
 

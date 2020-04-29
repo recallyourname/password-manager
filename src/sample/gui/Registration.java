@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import sample.data.workWithIni;
 import sample.validation.loginValidation;
 
 public class Registration extends Application {
@@ -20,7 +21,7 @@ public class Registration extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
-        window.setTitle("Password Manager");
+        window.setTitle("Registration");
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
@@ -29,26 +30,28 @@ public class Registration extends Application {
 
         Label usernameLabel = new Label("Username(A-Za-z0-9)");
         GridPane.setConstraints(usernameLabel, 0,0);
-        TextField usernameInput = new TextField("Default Text");
+        TextField usernameInput = new TextField("Your login");
         GridPane.setConstraints(usernameInput,1, 0);
 
         Label passwordLabel = new Label("Password(A-Za-z0-9+symbols)");
         GridPane.setConstraints(passwordLabel, 0, 1);
         PasswordField passwordInput = new PasswordField();
+        passwordInput.setPromptText("Your password");
         GridPane.setConstraints(passwordInput, 1, 1);
 
         Button registrationButton = new Button("Sign Up");
         registrationButton.setOnAction(e->{
             try {
                 if (loginValidation.checkIfAccountExist(usernameInput)){
-                    System.out.println("zaloopa");
                     AlertBox.display("Registration issue", "Account does exist");
                 }
-                else if ((loginValidation.validateUsername(usernameInput)) && (loginValidation.validatePassword(passwordInput)) && (passwordInput.getText() != null) && (usernameInput.getText() != null)) {
-                    System.out.printf("Nu i idi nahui");
+                else if ((loginValidation.validateUsername(usernameInput)) && (loginValidation.validatePassword(passwordInput))) {
+                    workWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
+                    PasswordManagerInterface PMI = new PasswordManagerInterface();
+                    PMI.start(window);
                 }
                 else {
-                    System.out.println("AYE");
+                    AlertBox.display("Error", "Try another login/password");
                 }
             } catch (Exception ex) {
                 System.out.println(ex.toString());
@@ -56,7 +59,23 @@ public class Registration extends Application {
         });
         GridPane.setConstraints(registrationButton, 1,2);
 
-        grid.getChildren().addAll(usernameLabel, usernameInput, passwordLabel, passwordInput, registrationButton);
+        Button backToTheLoginButton = new Button("Back to login");
+
+        backToTheLoginButton.setOnAction(e->{
+            if(ConfirmBox.display("Go back?", "Go back to login page?")){
+                window.close();
+                Main main = new Main();
+                try {
+                    main.start(window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        GridPane.setConstraints(backToTheLoginButton, 1, 3);
+
+        grid.getChildren().addAll(usernameLabel, usernameInput, passwordLabel, passwordInput, registrationButton, backToTheLoginButton);
         grid.setAlignment(Pos.CENTER);
 
         scene = new Scene(grid, 500,500);

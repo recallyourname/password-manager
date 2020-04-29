@@ -10,8 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sample.data.workWithIni;
 import sample.validation.loginValidation;
+
+import java.io.IOException;
 
 public class Main extends Application {
     Stage window;
@@ -43,17 +44,20 @@ public class Main extends Application {
 
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            if (loginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
-                if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
-                    AlertBox.display("Congratulations!", "You logged in!");
-                    workWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
-                    PasswordManagerInterface PMI = new PasswordManagerInterface();
-                    try {
-                        PMI.start(window);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+            try {
+                if (loginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
+                    if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
+                        AlertBox.display("Congratulations!", "You logged in!");
+                        PasswordManagerInterface PMI = new PasswordManagerInterface();
+                        try {
+                            PMI.start(window);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
         GridPane.setConstraints(loginButton, 1,2 );
