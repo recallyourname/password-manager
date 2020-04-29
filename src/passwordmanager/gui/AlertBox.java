@@ -1,4 +1,4 @@
-package sample.gui;
+package passwordmanager.gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

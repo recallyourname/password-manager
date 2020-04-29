@@ -1,4 +1,4 @@
-package sample.data;
+package passwordmanager.data;
 
 import java.util.*;
 

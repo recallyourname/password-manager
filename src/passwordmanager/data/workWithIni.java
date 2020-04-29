@@ -1,4 +1,4 @@
-package sample.data;
+package passwordmanager.data;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.ini4j.Wini;

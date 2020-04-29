@@ -1,4 +1,4 @@
-package sample.gui;
+package passwordmanager.gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

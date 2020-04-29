@@ -1,4 +1,4 @@
-package sample.gui;
+package passwordmanager.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,8 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sample.data.workWithIni;
-import sample.validation.loginValidation;
+import passwordmanager.data.workWithIni;
+import passwordmanager.validation.loginValidation;
 
 public class Registration extends Application {
 

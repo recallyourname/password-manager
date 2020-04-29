@@ -1,4 +1,4 @@
-package sample.gui;
+package passwordmanager.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,7 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sample.validation.loginValidation;
+import passwordmanager.validation.loginValidation;
 
 import java.io.IOException;
 

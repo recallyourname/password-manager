@@ -1,8 +1,8 @@
-package sample.validation;
+package passwordmanager.validation;
 
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import sample.data.workWithIni;
+import passwordmanager.data.workWithIni;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

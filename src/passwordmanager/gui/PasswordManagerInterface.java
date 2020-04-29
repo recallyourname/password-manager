@@ -1,4 +1,4 @@
-package sample.gui;
+package passwordmanager.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
