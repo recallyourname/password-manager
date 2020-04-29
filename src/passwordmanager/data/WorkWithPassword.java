@@ -4,10 +4,6 @@ import java.util.*;
 
 public class WorkWithPassword {
 
-    public static void printPasswords(){
-
-    }
-
     public static void addExistingPassword(){
         Scanner scanner = new Scanner(System.in);
 

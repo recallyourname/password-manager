@@ -48,7 +48,7 @@ public class Main extends Application {
                 if (LoginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
                     if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
                         AlertBox.display("Congratulations!", "You logged in!");
-                        PasswordManagerInterface PMI = new PasswordManagerInterface();
+                        PasswordManagerUI PMI = new PasswordManagerUI();
                         try {
                             PMI.start(window);
                         } catch (Exception ex) {

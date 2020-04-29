@@ -47,7 +47,7 @@ public class Registration extends Application {
                 }
                 else if ((LoginValidation.validateUsername(usernameInput)) && (LoginValidation.validatePassword(passwordInput))) {
                     WorkWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
-                    PasswordManagerInterface PMI = new PasswordManagerInterface();
+                    PasswordManagerUI PMI = new PasswordManagerUI();
                     PMI.start(window);
                 }
                 else {
