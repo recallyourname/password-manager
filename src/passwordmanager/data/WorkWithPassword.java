@@ -2,7 +2,7 @@ package passwordmanager.data;
 
 import java.util.*;
 
-public class workWithPassword {
+public class WorkWithPassword {
 
     public static void printPasswords(){
 
@@ -20,7 +20,7 @@ public class workWithPassword {
         System.out.println("Enter password: ");
         String password = scanner.nextLine();
 
-        workWithIni.writePasswordToIni(link, login, password);
+        WorkWithIni.writePasswordToIni(link, login, password);
     }
 
     public static String generatePassword(int len, boolean uppercase, boolean lowercase, boolean specsymbols, boolean nums) {

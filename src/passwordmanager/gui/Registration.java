@@ -10,8 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import passwordmanager.data.workWithIni;
-import passwordmanager.validation.loginValidation;
+import passwordmanager.data.WorkWithIni;
+import passwordmanager.validation.LoginValidation;
 
 public class Registration extends Application {
 
@@ -42,11 +42,11 @@ public class Registration extends Application {
         Button registrationButton = new Button("Sign Up");
         registrationButton.setOnAction(e->{
             try {
-                if (loginValidation.checkIfAccountExist(usernameInput)){
+                if (LoginValidation.checkIfAccountExist(usernameInput)){
                     AlertBox.display("Registration issue", "Account does exist");
                 }
-                else if ((loginValidation.validateUsername(usernameInput)) && (loginValidation.validatePassword(passwordInput))) {
-                    workWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
+                else if ((LoginValidation.validateUsername(usernameInput)) && (LoginValidation.validatePassword(passwordInput))) {
+                    WorkWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
                     PasswordManagerInterface PMI = new PasswordManagerInterface();
                     PMI.start(window);
                 }

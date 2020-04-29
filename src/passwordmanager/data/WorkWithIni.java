@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class workWithIni {
+public class WorkWithIni {
 
     public static String checkSum(){
         File file = new File("passwords.ini");

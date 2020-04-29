@@ -10,7 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import passwordmanager.validation.loginValidation;
+import passwordmanager.validation.LoginValidation;
 
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public class Main extends Application {
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
             try {
-                if (loginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
+                if (LoginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
                     if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
                         AlertBox.display("Congratulations!", "You logged in!");
                         PasswordManagerInterface PMI = new PasswordManagerInterface();
