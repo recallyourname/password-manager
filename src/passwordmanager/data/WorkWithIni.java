@@ -1,11 +1,14 @@
 package passwordmanager.data;
 
+import javafx.collections.ObservableList;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.ini4j.Profile;
 import org.ini4j.Wini;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 public class WorkWithIni {
 
@@ -33,10 +36,11 @@ public class WorkWithIni {
         }
     }
 
-    public static void writePasswordToIni(String link, String login, String pass) {
+    public static void writePasswordToIni(String account, String link, String login, String pass) {
         File file = new File("passwords.ini");
         try {
             Wini ini = new Wini(file);
+            ini.put(link, "account", account);
             ini.put(link, "login", login);
             ini.put(link, "password", pass);
             ini.store();
@@ -44,6 +48,24 @@ public class WorkWithIni {
         catch(IOException e) {
             System.out.println(e.toString());
         }
+    }
+
+    public static ObservableList<Password> parseSectionsContainsAccount(ObservableList<Password> passwords, String currentAccount){
+        File file = new File("passwords.ini");
+        try {
+            Wini ini = new Wini(file);
+            Collection<Profile.Section> list = ini.values();
+            for(Profile.Section section : list){
+                if (section.get("account").equals(currentAccount)) {
+                    Password pass = new Password(section.getName(), section.get("login"), section.get("password"));
+                    passwords.add(pass);
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return passwords;
     }
 
     public static void readPasswordFromIni(String link){

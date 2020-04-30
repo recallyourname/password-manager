@@ -1,6 +1,8 @@
 package passwordmanager.gui;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,6 +25,7 @@ public class PasswordManagerUI extends Application {
     Scene scene;
     BorderPane layout;
     TableView<Password> table;
+    String currentAccount;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -33,7 +36,13 @@ public class PasswordManagerUI extends Application {
         Menu passwordsDatabase = new Menu("Passwords");
 
         MenuItem listPasswords = new MenuItem("List passwords");
-        listPasswords.setOnAction(e->menuPasswords());
+        listPasswords.setOnAction(e-> {
+            try {
+                menuPasswords();
+            } catch (IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         passwordsDatabase.getItems().add(listPasswords);
 
         MenuItem addPassword = new MenuItem("Add password");
@@ -90,9 +99,23 @@ public class PasswordManagerUI extends Application {
         CheckBox box2 = new CheckBox("Lowercase");
         CheckBox box3 = new CheckBox("Specsymbols");
         CheckBox box4 = new CheckBox("Numbers");
+        TextField lengthInput = new TextField();
+
+        lengthInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    AlertBox.display("Length Input", "Should be decimal");
+                    lengthInput.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        lengthInput.setPromptText("Length");
         Button generatePassword = new Button("Generate");
         generatePassword.setOnAction(e->{
-            String generatedPassword = WorkWithPassword.generatePassword(12, box1.isSelected(), box2.isSelected(), box3.isSelected(), box4.isSelected());
+            String generatedPassword = WorkWithPassword.generatePassword(lengthInput.getText(), box1.isSelected(), box2.isSelected(), box3.isSelected(), box4.isSelected());
             content.putString(generatedPassword);
             clipboard.setContent(content);
             AlertBox.display("Password", "Is copied to your clipboard");
@@ -102,12 +125,16 @@ public class PasswordManagerUI extends Application {
         Button submitPassword = new Button("Submit");
         submitPassword.setOnAction(e->{
             if (!websiteInput.getText().trim().isEmpty() && !usernameInput.getText().trim().isEmpty() && !passwordInput.getText().trim().isEmpty()){
-                WorkWithIni.writePasswordToIni(websiteInput.getText(), usernameInput.getText(), passwordInput.getText());
+                WorkWithIni.writePasswordToIni(currentAccount ,websiteInput.getText(), usernameInput.getText(), passwordInput.getText());
                 if (ConfirmBox.display("Password Submitted", "Would you like to add another?")) {
                     createPassword();
                 }
                 else{
-                    menuPasswords();
+                    try {
+                        menuPasswords();
+                    } catch (IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
             else {
@@ -116,14 +143,14 @@ public class PasswordManagerUI extends Application {
         });
         GridPane.setConstraints(submitPassword, 0, 3);
 
-        generatePasswordsRules.getChildren().addAll(box1,box2,box3,box4,generatePassword, submitPassword);
+        generatePasswordsRules.getChildren().addAll(box1,box2,box3,box4,lengthInput,generatePassword, submitPassword);
 
         grid.getChildren().addAll(websiteLabel, websiteInput, usernameInput, usernameLabel, passwordInput, passwordLabel, generatePasswordsRules);
         grid.setAlignment(Pos.CENTER);
         layout.setCenter(grid);
     }
 
-    private void menuPasswords (){
+    private void menuPasswords () throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         TableColumn<Password, String> source = new TableColumn<>("Source");
         source.setCellValueFactory(new PropertyValueFactory<>("source"));
         source.setMinWidth(190);
@@ -142,27 +169,14 @@ public class PasswordManagerUI extends Application {
         layout.setCenter(table);
     }
 
-    public ObservableList<Password> getPassword() {
+    public void setAccount(String accountName){
+        currentAccount = accountName;
+    }
+
+    public ObservableList<Password> getPassword() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         ObservableList<Password> passwords = FXCollections.observableArrayList();
-        passwords.add(new Password("Github", "Adolf", "122321qqq"));
-        passwords.add(new Password("Vk", "Adolf1488", "1221q??qq"));
-        passwords.add(new Password("Discord", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Telegram", "Adolf", "122321qqq"));
-        passwords.add(new Password("Youtube", "Adolf", "122321qqq"));
-        passwords.add(new Password("Twitch", "Adolf", "122321qqq"));
-        passwords.add(new Password("Gmail", "Adolf", "122321qqq"));
-        passwords.add(new Password("Twitter", "Adolf", "122321qqq"));
+        WorkWithIni.parseSectionsContainsAccount(passwords, currentAccount);
+
         return passwords;
     }
 }

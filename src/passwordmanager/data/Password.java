@@ -17,6 +17,10 @@ public class Password {
         this.value = value;
     }
 
+    public void addPasswordToDB(String account, String source, String username, String value){
+        WorkWithIni.writePasswordToIni(account, source, username, value);
+    }
+
     public String getSource() {
         return source;
     }

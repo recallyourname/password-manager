@@ -50,6 +50,7 @@ public class Main extends Application {
                         AlertBox.display("Congratulations!", "You logged in!");
                         PasswordManagerUI PMI = new PasswordManagerUI();
                         try {
+                            PMI.setAccount(usernameInput.getText());
                             PMI.start(window);
                         } catch (Exception ex) {
                             ex.printStackTrace();

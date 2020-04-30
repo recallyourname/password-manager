@@ -4,7 +4,7 @@ import java.util.*;
 
 public class WorkWithPassword {
 
-    public static void addExistingPassword(){
+    /*public static void addExistingPassword(){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter link: ");
@@ -17,9 +17,9 @@ public class WorkWithPassword {
         String password = scanner.nextLine();
 
         WorkWithIni.writePasswordToIni(link, login, password);
-    }
+    }*/
 
-    public static String generatePassword(int len, boolean uppercase, boolean lowercase, boolean specsymbols, boolean nums) {
+    public static String generatePassword(String lenStringValue, boolean uppercase, boolean lowercase, boolean specsymbols, boolean nums) {
         Random random = new Random();
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String specchar = "{}()[]#;:^,.?!|&_`~@$%+=-* ";
@@ -27,7 +27,7 @@ public class WorkWithPassword {
         String password = "";
         String resultPoolOfSymbols = "";
         int index;
-
+        int len = Integer.parseInt(lenStringValue);
         if (uppercase) {
             resultPoolOfSymbols += alphabet.toUpperCase();
         }
