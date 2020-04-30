@@ -16,10 +16,8 @@ public class LoginValidation {
         String username = input.getText();
         Matcher matcher = USERNAME_PATTERN.matcher(username);
         if (matcher.matches()) {
-            System.out.println("Username is ok");
             return true;
         }
-        System.out.println("Incorrect username");
         return false;
     }
 
@@ -27,20 +25,16 @@ public class LoginValidation {
         String password = input.getText();
         Matcher matcher = PASSWORD_PATTERN.matcher(password);
         if(matcher.matches()){
-            System.out.println("Password is ok");
             return true;
         }
-        System.out.println("password is not ok");
         return false;
     }
 
     public static boolean checkForLoginAndPassword(TextField inputUsername, TextField inputPassword) throws IOException {
         if (WorkWithIni.readAccountDataFromIni(inputUsername.getText(), inputPassword.getText())){
-            System.out.println("Account exist");
             return true;
         }
         else {
-            System.out.println("Account doesn't exist");
             return false;
         }
     }
