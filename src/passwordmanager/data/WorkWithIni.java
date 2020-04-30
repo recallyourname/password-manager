@@ -50,7 +50,21 @@ public class WorkWithIni {
         }
     }
 
-    public static ObservableList<Password> parseSectionsContainsAccount(ObservableList<Password> passwords, String currentAccount){
+    public static void removeSectionByName(String sectionName, String currentAccount) throws IOException {
+        File file = new File("passwords.ini");
+        Wini ini = new Wini(file);
+        Collection<Profile.Section> list = ini.values();
+        for(Profile.Section section : list) {
+            if(section.getName().equals(sectionName) && currentAccount.equals(section.get("account"))) {
+                if (ini.containsKey(sectionName)){
+                    ini.remove(ini.get(sectionName));
+                }
+            }
+        }
+        ini.store(file);
+    }
+
+    public static void parseSectionsContainsAccount(ObservableList<Password> passwords, String currentAccount){
         File file = new File("passwords.ini");
         try {
             Wini ini = new Wini(file);
@@ -65,7 +79,6 @@ public class WorkWithIni {
         catch(Exception e){
             System.out.println(e.toString());
         }
-        return passwords;
     }
 
     public static void readPasswordFromIni(String link){

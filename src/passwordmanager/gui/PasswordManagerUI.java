@@ -20,6 +20,8 @@ import passwordmanager.data.Password;
 import passwordmanager.data.WorkWithIni;
 import passwordmanager.data.WorkWithPassword;
 
+import java.io.IOException;
+
 public class PasswordManagerUI extends Application {
     Stage window;
     Scene scene;
@@ -31,7 +33,7 @@ public class PasswordManagerUI extends Application {
     public void start(Stage stage) throws Exception {
         window = stage;
         window.setTitle("Password Manager");
-
+        MenuBar menuBar = new MenuBar();
         //menu items
         Menu passwordsDatabase = new Menu("Passwords");
 
@@ -49,11 +51,39 @@ public class PasswordManagerUI extends Application {
         addPassword.setOnAction(e->createPassword());
         passwordsDatabase.getItems().add(addPassword);
 
+        MenuItem copySelected = new MenuItem("Copy Selected");
+        copySelected.setOnAction(e->{
+            copyPasswordToClipboard();
+        });
+        passwordsDatabase.getItems().add(copySelected);
+
+        MenuItem removeSelected = new MenuItem("Remove Selected");
+        removeSelected.setOnAction(e->{
+            try {
+                removeSelectedPassword();
+            } catch (IOException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        passwordsDatabase.getItems().add(removeSelected);
+
         Menu accountSettings = new Menu("Account");
+        MenuItem logout = new MenuItem("Logout");
+        logout.setOnAction(e->{
+            try {
+                if(ConfirmBox.display("Logout", "You want to logout?")) {
+                    Main main = new Main();
+                    main.start(window);
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        accountSettings.getItems().add(logout);
         accountSettings.getItems().add(new MenuItem ("Change username"));
         accountSettings.getItems().add(new MenuItem("Change password"));
 
-        MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(passwordsDatabase, accountSettings);
 
         Label label = new Label("Choose one of the menu buttons");
@@ -64,6 +94,28 @@ public class PasswordManagerUI extends Application {
         scene = new Scene(layout, 500, 500);
         window.setScene(scene);
         window.show();
+    }
+
+    private void copyPasswordToClipboard(){
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        Password pass = (Password) table.getSelectionModel().getSelectedItem();
+        if(pass != null) {
+            content.putString(pass.getValue());
+            clipboard.setContent(content);
+            AlertBox.display("Password", "Is copied to your clipboard");
+        }
+    }
+
+    private void removeSelectedPassword() throws IOException, IllegalAccessException, ClassNotFoundException, InstantiationException {
+        Password pass = (Password) table.getSelectionModel().getSelectedItem();
+        if(pass != null) {
+            if(ConfirmBox.display("Confirm", "You want to remove password")){
+                WorkWithIni.removeSectionByName(pass.getSource(), currentAccount);
+                AlertBox.display("Password", "Is successfully removed");
+                menuPasswords();
+            }
+        }
     }
 
     private void createPassword() {
@@ -150,7 +202,7 @@ public class PasswordManagerUI extends Application {
         layout.setCenter(grid);
     }
 
-    private void menuPasswords () throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    private void menuPasswords() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         TableColumn<Password, String> source = new TableColumn<>("Source");
         source.setCellValueFactory(new PropertyValueFactory<>("source"));
         source.setMinWidth(190);
@@ -173,7 +225,7 @@ public class PasswordManagerUI extends Application {
         currentAccount = accountName;
     }
 
-    public ObservableList<Password> getPassword() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public ObservableList<Password> getPassword() {
         ObservableList<Password> passwords = FXCollections.observableArrayList();
         WorkWithIni.parseSectionsContainsAccount(passwords, currentAccount);
 
