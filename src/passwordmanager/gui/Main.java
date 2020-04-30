@@ -31,12 +31,14 @@ public class Main extends Application {
 
         Label usernameLabel = new Label("Username");
         GridPane.setConstraints(usernameLabel, 0,0);
-        TextField usernameInput = new TextField("Default Text");
+        TextField usernameInput = new TextField();
+        usernameInput.setPromptText("Username");
         GridPane.setConstraints(usernameInput,1, 0);
 
         Label passwordLabel = new Label("Password");
         GridPane.setConstraints(passwordLabel, 0, 1);
         PasswordField passwordInput = new PasswordField();
+        passwordInput.setPromptText("Password");
         GridPane.setConstraints(passwordInput, 1, 1);
 
         Button loginButton = new Button("Login");

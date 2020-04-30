@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import passwordmanager.data.Password;
 import passwordmanager.data.WorkWithIni;
-import passwordmanager.data.WorkWithPassword;
 
 import java.io.IOException;
 
@@ -167,10 +166,12 @@ public class PasswordManagerUI extends Application {
         lengthInput.setPromptText("Length");
         Button generatePassword = new Button("Generate");
         generatePassword.setOnAction(e->{
-            String generatedPassword = WorkWithPassword.generatePassword(lengthInput.getText(), box1.isSelected(), box2.isSelected(), box3.isSelected(), box4.isSelected());
-            content.putString(generatedPassword);
-            clipboard.setContent(content);
-            AlertBox.display("Password", "Is copied to your clipboard");
+            if(!lengthInput.getText().trim().isEmpty() && (box1.isSelected() || box2.isSelected() || box3.isSelected() || box4.isSelected())){
+                String generatedPassword = Password.generatePassword(lengthInput.getText(), box1.isSelected(), box2.isSelected(), box3.isSelected(), box4.isSelected());
+                content.putString(generatedPassword);
+                clipboard.setContent(content);
+                AlertBox.display("Password", "Is copied to your clipboard");
+            }
         });
         GridPane.setConstraints(generatePasswordsRules, 2, 2);
 

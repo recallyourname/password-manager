@@ -28,12 +28,13 @@ public class Registration extends Application {
         grid.setVgap(8);
         grid.setHgap(10);
 
-        Label usernameLabel = new Label("Username(A-Za-z0-9)");
+        Label usernameLabel = new Label("Username (A-Za-z0-9_-)");
         GridPane.setConstraints(usernameLabel, 0,0);
-        TextField usernameInput = new TextField("Your login");
+        TextField usernameInput = new TextField();
+        usernameInput.setPromptText("Username");
         GridPane.setConstraints(usernameInput,1, 0);
 
-        Label passwordLabel = new Label("Password(A-Za-z0-9+symbols)");
+        Label passwordLabel = new Label("Password (A-Za-z0-9+symbols)");
         GridPane.setConstraints(passwordLabel, 0, 1);
         PasswordField passwordInput = new PasswordField();
         passwordInput.setPromptText("Your password");
