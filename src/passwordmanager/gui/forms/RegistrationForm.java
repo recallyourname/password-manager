@@ -1,4 +1,4 @@
-package passwordmanager.gui;
+package passwordmanager.gui.forms;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -11,9 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import passwordmanager.data.WorkWithIni;
+import passwordmanager.gui.AlertBox;
+import passwordmanager.gui.ConfirmBox;
+import passwordmanager.gui.Main;
+import passwordmanager.gui.PasswordManagerUI;
 import passwordmanager.validation.LoginValidation;
 
-public class Registration extends Application {
+public class RegistrationForm extends Application {
 
     Stage window;
     Scene scene;
@@ -43,18 +47,7 @@ public class Registration extends Application {
         Button registrationButton = new Button("Sign Up");
         registrationButton.setOnAction(e->{
             try {
-                if (LoginValidation.checkIfAccountExist(usernameInput)){
-                    AlertBox.display("Registration issue", "Account does exist");
-                }
-                else if ((LoginValidation.validateUsername(usernameInput)) && (LoginValidation.validatePassword(passwordInput))) {
-                    WorkWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
-                    PasswordManagerUI PMI = new PasswordManagerUI();
-                    PMI.setAccount(usernameInput.getText());
-                    PMI.start(window);
-                }
-                else {
-                    AlertBox.display("Error", "Try another login/password");
-                }
+                registrationButtonSubmit(usernameInput, passwordInput);
             } catch (Exception ex) {
                 System.out.println(ex.toString());
             }
@@ -84,6 +77,21 @@ public class Registration extends Application {
         window.setScene(scene);
 
         window.show();
-
     }
+
+    private void registrationButtonSubmit(TextField usernameInput, PasswordField passwordInput) throws Exception {
+        if (LoginValidation.checkIfAccountExist(usernameInput)){
+            AlertBox.display("Registration issue", "Account does exist");
+        }
+        else if ((LoginValidation.validateUsername(usernameInput)) && (LoginValidation.validatePassword(passwordInput))) {
+            WorkWithIni.writeAccountDataToIni(usernameInput.getText(), passwordInput.getText());
+            PasswordManagerUI PMI = new PasswordManagerUI();
+            PMI.setAccount(usernameInput.getText());
+            PMI.start(window);
+        }
+        else {
+            AlertBox.display("Error", "Try another login/password");
+        }
+    }
+
 }

@@ -1,15 +1,9 @@
 package passwordmanager.gui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import passwordmanager.validation.LoginValidation;
-
-import java.io.IOException;
+import passwordmanager.gui.forms.AuthorizationForm;
 
 public class Main extends Application {
     Stage window;
@@ -24,65 +18,8 @@ public class Main extends Application {
             onClose();
         });
         //Login
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setVgap(8);
-        grid.setHgap(10);
-
-        Label usernameLabel = new Label("Username");
-        GridPane.setConstraints(usernameLabel, 0,0);
-        TextField usernameInput = new TextField();
-        usernameInput.setPromptText("Username");
-        GridPane.setConstraints(usernameInput,1, 0);
-
-        Label passwordLabel = new Label("Password");
-        GridPane.setConstraints(passwordLabel, 0, 1);
-        PasswordField passwordInput = new PasswordField();
-        passwordInput.setPromptText("Password");
-        GridPane.setConstraints(passwordInput, 1, 1);
-
-        Button loginButton = new Button("Login");
-        loginButton.setOnAction(e -> {
-            try {
-                if (LoginValidation.checkForLoginAndPassword(usernameInput, passwordInput)) {
-                    if(ConfirmBox.display("Confirm", "You want to login with "+usernameInput.getText() + "?")){
-                        AlertBox.display("Congratulations!", "You logged in!");
-                        PasswordManagerUI PMI = new PasswordManagerUI();
-                        try {
-                            PMI.setAccount(usernameInput.getText());
-                            PMI.start(window);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-                else{
-                    AlertBox.display("Can't Login", "Account Doesn't exist");
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        GridPane.setConstraints(loginButton, 1,2 );
-
-        Button registrationButton = new Button("Sign Up");
-        registrationButton.setOnAction(e->{
-            Registration reg = new Registration();
-            try {
-                reg.start(window);
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-        });
-        GridPane.setConstraints(registrationButton, 1,3);
-
-        grid.getChildren().addAll(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton, registrationButton);
-        grid.setAlignment(Pos.CENTER);
-
-        scene1 = new Scene(grid, 500,500);
-        window.setScene(scene1);
-
+        AuthorizationForm af = new AuthorizationForm();
+        af.start(window);
         window.show();
     }
 
