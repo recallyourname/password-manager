@@ -18,6 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import passwordmanager.data.Password;
 import passwordmanager.data.WorkWithIni;
+import passwordmanager.gui.notifications.AlertBox;
+import passwordmanager.gui.notifications.ConfirmBox;
 
 import java.io.IOException;
 

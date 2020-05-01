@@ -1,4 +1,4 @@
-package passwordmanager.gui;
+package passwordmanager.gui.notifications;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

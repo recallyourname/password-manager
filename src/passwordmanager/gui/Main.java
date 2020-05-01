@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import passwordmanager.gui.forms.AuthorizationForm;
+import passwordmanager.gui.notifications.ConfirmBox;
 
 public class Main extends Application {
     Stage window;

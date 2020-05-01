@@ -10,8 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import passwordmanager.gui.AlertBox;
-import passwordmanager.gui.ConfirmBox;
+import passwordmanager.gui.notifications.AlertBox;
+import passwordmanager.gui.notifications.ConfirmBox;
 import passwordmanager.gui.PasswordManagerUI;
 import passwordmanager.validation.LoginValidation;
 
