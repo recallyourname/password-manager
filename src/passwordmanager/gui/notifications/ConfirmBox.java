@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,9 +42,12 @@ public class ConfirmBox {
         Label label = new Label();
         label.setText(message);
         GridPane.setConstraints(label, 0,0);
-        GridPane.setConstraints(yesButton, 0, 1);
-        GridPane.setConstraints(noButton,1,1);
-        grid.getChildren().addAll(label, yesButton, noButton);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(yesButton, noButton);
+        buttons.setSpacing(10);
+        buttons.setAlignment(Pos.CENTER);
+        GridPane.setConstraints(buttons, 0, 1);
+        grid.getChildren().addAll(label, buttons);
         grid.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(grid, 250, 100);
